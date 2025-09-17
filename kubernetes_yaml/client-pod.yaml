@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: network-test
+  name: network-test
+spec:
+  containers:
+  - image: registry.cn-hangzhou.aliyuncs.com/iuxt/network-test:2025-07-29
+    name: network-test
+    command:
+    - "sleep"
+    - "infinity"
+

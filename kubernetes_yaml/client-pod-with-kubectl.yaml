@@ -1,0 +1,54 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: network-test-sa
+  namespace: default
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: network-test-role
+  namespace: default
+rules:
+- apiGroups: [""]  # 核心API组
+  resources: ["pods", "services", "endpoints", "configmaps", "secrets"]
+  verbs: ["get", "list", "watch", "create", "update", "patch"]
+- apiGroups: ["apps"]  # 应用API组
+  resources: ["deployments", "replicasets", "statefulsets"]
+  verbs: ["get", "list", "watch", "create", "update", "patch"]
+- apiGroups: ["networking.k8s.io"]  # 网络API组
+  resources: ["ingresses", "networkpolicies"]
+  verbs: ["get", "list", "watch", "create", "update", "patch"]
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: network-test-rolebinding
+  namespace: default # 必须与Role和ServiceAccount所在的命名空间一致
+subjects:
+- kind: ServiceAccount
+  name: network-test-sa  # 之前创建的ServiceAccount名称
+  namespace: default     # ServiceAccount所在的命名空间
+roleRef:
+  kind: Role
+  name: network-test-role # 之前创建的Role名称
+  apiGroup: rbac.authorization.k8s.io
+
+
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  labels:
+    run: network-test
+  name: network-test
+spec:
+  serviceAccountName: network-test-sa  # 指定使用的ServiceAccount
+  containers:
+  - image: registry.cn-hangzhou.aliyuncs.com/iuxt/network-test:2025-09-17
+    name: network-test
+    command:
+    - "sleep"
+    - "infinity"
+

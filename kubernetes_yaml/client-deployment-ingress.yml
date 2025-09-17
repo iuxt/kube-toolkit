@@ -1,0 +1,82 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: network-test-deployment
+spec:
+  selector:
+    matchLabels:
+      app: network-test
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: network-test
+    spec:
+      containers:
+      - name: network-test
+        image: registry.cn-hangzhou.aliyuncs.com/iuxt/network-test:2025-07-29
+        ports:
+        - containerPort: 8080
+        env:
+          - name: SERVER_PORT
+            value: "8080"
+          - name: ECHO_ENV
+            value: "NODE_NAME,POD_NAME,POD_NAMESPACE,POD_IP"
+          - name: NODE_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: spec.nodeName
+          - name: POD_NAME
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.name
+          - name: POD_NAMESPACE
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.namespace
+          - name: POD_IP
+            valueFrom:
+              fieldRef:
+                fieldPath: status.podIP
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: network-test-service
+spec:
+  selector:
+    app: network-test
+  ports:
+  - protocol: TCP
+    port: 80                # 这个是service对外暴露的端口
+    targetPort: 8080          # 这里是pod对外暴露的端口
+    nodePort: 30081
+  type: NodePort
+
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: network-test
+  annotations:
+    client.ingress.kubernetes.io/ssl-redirect: "false" # 关闭SSL跳转
+spec:
+  ingressClassName: nginx
+  tls:
+  - hosts:
+    - test.i.com
+    secretName: i-com
+  rules:
+  - host: test.i.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: network-test-service
+            port:
+              number: 80

@@ -1,6 +1,8 @@
 这个是在k8s里面调试用的容器，安装了常用的工具。
 
 
+## 一条命令直接运行
+
 ```bash
 docker run -it --rm --name network-test --network iuxt registry.cn-hangzhou.aliyuncs.com/iuxt/network-test:2025-06-20 bash
 kubectl run -it network-test --image=registry.cn-hangzhou.aliyuncs.com/iuxt/network-test:2025-06-20 --restart=Never --rm --command -- bash
