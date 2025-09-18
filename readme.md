@@ -1,5 +1,13 @@
 这个是在k8s里面调试用的容器，安装了常用的工具。
 
+## 可以做什么
+
+1. 在pod里使用 `mysql` 、`redis-cli` 命令连接数据库
+2. 在pod里进行网络调试，如 `ping` `telnet` `nmap` `ncat` `tracepath` `dig`  等网络调试命令
+3. 运行一个`python3`程序或脚本
+4. 验证或测试从ingress到pod的延迟、以及多个pod的负载调度情况（基于echoserver，访问会将pod信息和http信息输出）
+5. 在pod里执行`kubectl`命令，比如k8s你只有个管理平台的情况
+6. 通过k8s跳转登录到宿主机(基于`kube-node-shell`，在pod里使用 `kubectl node-shell <nodename>`)
 
 ## 一条命令直接运行
 
