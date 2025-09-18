@@ -1,6 +1,6 @@
 FROM golang:1.21-alpine AS builder
 WORKDIR /app
-COPY echoserver/main.go .
+COPY go-echoserver/main.go .
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o /echo-server main.go
 
 

@@ -1,0 +1,3 @@
+[submodule "go-echoserver"]
+	path = go-echoserver
+	url = https://github.com/iuxt/go-echoserver.git
