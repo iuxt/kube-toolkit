@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: network-test-deployment
+  name: kube-toolkit-deployment
 spec:
   selector:
     matchLabels:
-      app: network-test
+      app: kube-toolkit
   replicas: 1
   template:
     metadata:
       labels:
-        app: network-test
+        app: kube-toolkit
     spec:
       containers:
-      - name: network-test
+      - name: kube-toolkit
         image: registry.cn-hangzhou.aliyuncs.com/iuxt/network-test:2025-07-29
         ports:
         - containerPort: 8080
@@ -44,10 +44,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: network-test-service
+  name: kube-toolkit-service
 spec:
   selector:
-    app: network-test
+    app: kube-toolkit
   ports:
   - protocol: TCP
     port: 80                # 这个是service对外暴露的端口
@@ -60,7 +60,7 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: network-test
+  name: kube-toolkit
   annotations:
     client.ingress.kubernetes.io/ssl-redirect: "false" # 关闭SSL跳转
 spec:
@@ -77,6 +77,6 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: network-test-service
+            name: kube-toolkit-service
             port:
               number: 80

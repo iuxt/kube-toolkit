@@ -2,12 +2,13 @@ apiVersion: v1
 kind: Pod
 metadata:
   labels:
-    run: network-test
-  name: network-test
+    run: kube-toolkit
+  name: kube-toolkit
+  namespace: public
 spec:
   containers:
   - image: registry.cn-hangzhou.aliyuncs.com/iuxt/network-test:2025-07-29
-    name: network-test
+    name: kube-toolkit
     command:
     - "sleep"
     - "infinity"
