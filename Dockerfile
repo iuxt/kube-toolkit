@@ -12,6 +12,7 @@ RUN apt update && \
     inetutils-ping \
     bind9-dnsutils \
     telnet \
+    openssh-client \
     ncat \
     nmap \
     python3 \
