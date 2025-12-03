@@ -22,6 +22,7 @@ RUN apt update && \
     iputils-tracepath \
     vim \
     bash-completion \
+    xz-utils \
     && apt clean all
 
 
