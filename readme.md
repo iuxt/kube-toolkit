@@ -34,3 +34,17 @@ kubectl apply -f ./client-pod-with-kubectl.yaml
 kubectl apply -f ./client-pod-with-kubectl-admin.yaml
 ```
 
+## 构建镜像
+```bash
+# 指定架构构建
+docker build --platform linux/amd64 -t test .
+docker build --platform linux/amd64 --no-cache -t registry.cn-hangzhou.aliyuncs.com/iuxt/kube-toolkit:20251203 .
+
+```
+
+
+crontab 目录：
+/etc/cron.d/
+
+服务目录：
+/etc/services.d/

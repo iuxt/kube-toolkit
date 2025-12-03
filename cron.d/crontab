@@ -1,0 +1,1 @@
+* * * * * root echo "[$(date)] Cron is working" >> /var/log/cron.log 2>&1
