@@ -8,7 +8,7 @@ data:
   backup-job: |
     * * * * * root echo $(date) >> /tmp/test.log 2>&1
   clean-logs: |
-    * * * * * root sh /sh/a.sh >> /tmp/test2.log 2>&1
+    * * * * * root sh /sh/clean_log.sh >> /tmp/test2.log 2>&1
 ---
 apiVersion: v1
 kind: ConfigMap
@@ -16,7 +16,7 @@ metadata:
   name: kube-toolkit-scripts
   namespace: default
 data:
-  a.sh: |
+  clean_log.sh: |
     #!/bin/sh
     echo 111222
 

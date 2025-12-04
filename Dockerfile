@@ -1,8 +1,8 @@
+# 构建 echo-server
 FROM golang:1.21-alpine AS builder
 WORKDIR /app
 COPY go-echoserver/main.go .
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o /echo-server main.go
-
 
 
 FROM ubuntu:24.04 AS runner
@@ -27,6 +27,7 @@ RUN apt update && \
     && apt clean all
 
 
+# 安装 kubectl
 RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" \
     && install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl \
     && rm -f kubectl \
@@ -38,5 +39,14 @@ RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/s
 
 COPY --from=builder /echo-server /echo-server
 RUN chmod +x /echo-server
-CMD ["sh", "-c", "cron && /echo-server"]
+
+
+# 安装 s6-overlay
+ARG S6_OVERLAY_VERSION=3.2.1.0
+RUN curl -sSL https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-noarch.tar.xz | tar -xJvf - -C /
+RUN curl -sSL https://github.com/just-containers/s6-overlay/releases/download/v${S6_OVERLAY_VERSION}/s6-overlay-x86_64.tar.xz | tar -xJvf - -C /
+
+ADD s6-rc.d /etc/s6-overlay/s6-rc.d
+
+ENTRYPOINT ["/init"]
 
