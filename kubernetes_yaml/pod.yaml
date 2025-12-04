@@ -7,7 +7,7 @@ metadata:
   namespace: public
 spec:
   containers:
-  - image: registry.cn-hangzhou.aliyuncs.com/iuxt/network-test:2025-07-29
+  - image: registry.cn-hangzhou.aliyuncs.com/iuxt/kube-toolkit:1
     name: kube-toolkit
     command:
     - "sleep"

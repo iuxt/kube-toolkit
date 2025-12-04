@@ -46,7 +46,7 @@ metadata:
 spec:
   serviceAccountName: kube-toolkit-sa  # 指定使用的ServiceAccount
   containers:
-  - image: registry.cn-hangzhou.aliyuncs.com/iuxt/network-test:2025-09-17
+  - image: registry.cn-hangzhou.aliyuncs.com/iuxt/kube-toolkit:1
     name: kube-toolkit
     command:
     - "sleep"

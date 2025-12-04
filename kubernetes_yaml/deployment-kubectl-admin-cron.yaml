@@ -73,7 +73,7 @@ spec:
       serviceAccountName: kube-toolkit-sa
       containers:
       - name: kube-toolkit
-        image: registry.cn-hangzhou.aliyuncs.com/iuxt/kube-toolkit:20251203
+        image: registry.cn-hangzhou.aliyuncs.com/iuxt/kube-toolkit:1
         ports:
         - containerPort: 8080
         env:
